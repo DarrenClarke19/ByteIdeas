@@ -14,29 +14,41 @@
       height:600px;
       background-color: grey;
     }
-    
+    header{
+    background: url(images/background.jpg);
+    background-size: cover;
+    background-position: center;
+    min-height:1000px;
+   }
+   @media screen and (max-width:700px){
+      header{
+        min-height:500px;
+      }
+   }
   </style>
   
 </head>
 
 <body>
+  <header>
   <nav class="nav-wraper green">
     <div class="container">
-      <a href="#" class="brand-logo">Hike Havens</a>
+      <a href="index.html" class="brand-logo">Hike Havens</a>
       <a href="#" class="sidenav-trigger" data-target="mobile-links">
         <i class="material-icons">menu</i>
       </a>
 
     <ul class="right hide-on-med-and-down">
       <li><a href="index.html">HOME</a></li>
-      <li><a href="#">ABOUT</a></li>
+      <li><a href="about.html">ABOUT</a></li>
       <li><a href="#" class="btn-small green waves-effect waves-light">LOGIN</a></li>
     </ul>
   </div>
   </nav>
+  </header>
   <ul class="sidenav" id="mobile-links">
     <li><a href="index.html">HOME</a></li>
-    <li><a href="#">ABOUT</a></li>
+    <li><a href="about.html">ABOUT</a></li>
   </ul>
       <h2>My Google Maps Demo</h2>
       <div class="container" id="map">  
@@ -44,7 +56,7 @@
       </div>
       <script>
         function initMap(){
-          let origin={lat:10.74124 ,lng:-61.61256};
+          let origin={lat:10.73789 ,lng:-61.61313};
           let map=new google.maps.Map(
           document.querySelector('#map'), {zoom:14,center:origin}
           );

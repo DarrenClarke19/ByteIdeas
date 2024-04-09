@@ -13,38 +13,50 @@
   <title>Hike Haven</title>
 
   <style>
-   body{
-    background-image: url(images/background.jpg);
-    background-repeat:no-repeat;
-    background-position:center;
-    background-attachment: fixed;
+   header{
+    background: url(images/background.jpg);
     background-size: cover;
+    background-position: center;
+    min-height:1000px;
+   }
+   @media screen and (max-width:700px){
+      header{
+        min-height:500px;
+      }
+   }
+   #exploreBtn{
+    border-radius: 10px;
    }
   </style>
   
 </head>
 
 <body class="">
-  <nav class="nav-wraper green">
-    <div class="container">
-      <a href="#" class="brand-logo">Hike Havens</a>
-      <a href="#" class="sidenav-trigger" data-target="mobile-links">
-        <i class="material-icons">menu</i>
-      </a>
+  <header>
+    <nav class="nav-wraper green">
+      <div class="container">
+        <a href="index.html" class="brand-logo">Hike Havens</a>
+        <a href="#" class="sidenav-trigger" data-target="mobile-links">
+          <i class="material-icons">menu</i>
+        </a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="#" class="btn-small green waves-effect waves-light">LOGIN</a></li>
+      </ul>
+    </div>
+    </nav>
+  </header>
 
-    <ul class="right hide-on-med-and-down">
-      <li><a href="index.html">HOME</a></li>
-      <li><a href="#">ABOUT</a></li>
-      <li><a href="#" class="btn-small green waves-effect waves-light">LOGIN</a></li>
-    </ul>
-  </div>
-  </nav>
   <ul class="sidenav" id="mobile-links">
-    <li><a href="#">HOME</a></li>
-    <li><a href="#">ABOUT</a></li>
+    <li><a href="index.html">HOME</a></li>
+    <li><a href="about.html">ABOUT</a></li>
   </ul>
  <h1 style="color:white;">Welcome to Hike Haven</h1>
-    <h3><a href="explore.html">Explore</a></h3>
+    <div class="container">
+      <a href="explore.html" class="btn-large green darken-2 waves effect waves-light col s12 14" id="exploreBtn">EXPLORE</a>
+    </div>
+  
     
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <!-- Compiled and minified JavaScript -->

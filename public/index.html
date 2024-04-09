@@ -42,12 +42,30 @@
       <ul class="right hide-on-med-and-down">
         <li><a href="index.html">HOME</a></li>
         <li><a href="about.html">ABOUT</a></li>
-        <li><a href="#" class="btn-small green waves-effect waves-light">LOGIN</a></li>
+        <li><button id="logoutBtn" class="btn=small green waves-effect waves-light" style="display:none">LOGOUT</button></li>
+        <li><button id="loginBtn" class="btn-small green waves-effect waves-light">LOGIN</a></li>
+          <li><a href="#" class="btn-floating green lighter-2 z-depth-0 waves-effect waves-light" data-target="mysidenav">
+            <i class="material-icons">account_circle</i>
+          </a></li>
       </ul>
     </div>
     </nav>
   </header>
-
+  <ul id="slide-out" class="sidenav">
+    <li><div class="user-view">
+      <div class="background">
+        <img src="images/office.jpg">
+      </div>
+      <a href="#user"><img class="circle" src="images/yuna.jpg"></a>
+      <a href="#name"><span class="white-text name">John Doe</span></a>
+      <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+    </div></li>
+    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+    <li><a href="#!">Second Link</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="subheader">Subheader</a></li>
+    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+  </ul>
   <ul class="sidenav" id="mobile-links">
     <li><a href="index.html">HOME</a></li>
     <li><a href="about.html">ABOUT</a></li>
@@ -57,13 +75,18 @@
       <a href="explore.html" class="btn-large green darken-2 waves effect waves-light col s12 14" id="exploreBtn">EXPLORE</a>
     </div>
   
-    
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script>
     $(document).ready(function(){
       $('.sidenav').sidenav();
+    })
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded',function(){
+      var side=document.querySelectorAll('.sidenav');
+      M.Sidenav.init(side);
     })
   </script>
 </body>

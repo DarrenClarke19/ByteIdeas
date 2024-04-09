@@ -3,31 +3,56 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   <!--Import Google Icon Font-->
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <!-- Compiled and minified CSS -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+   
   <title>Hike Haven</title>
 
   <style>
-    nav{
-
-    }
-   
+   body{
+    background-image: url(images/background.jpg);
+    background-repeat:no-repeat;
+    background-position:center;
+    background-attachment: fixed;
+    background-size: cover;
+   }
   </style>
   
 </head>
 
-<body>
-  <nav>
-    
+<body class="">
+  <nav class="nav-wraper green">
+    <div class="container">
+      <a href="#" class="brand-logo">Hike Havens</a>
+      <a href="#" class="sidenav-trigger" data-target="mobile-links">
+        <i class="material-icons">menu</i>
+      </a>
+
+    <ul class="right hide-on-med-and-down">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="#">ABOUT</a></li>
+      <li><a href="#" class="btn-small green waves-effect waves-light">LOGIN</a></li>
+    </ul>
+  </div>
   </nav>
- <h1>Welcome to Hike Haven</h1>
+  <ul class="sidenav" id="mobile-links">
+    <li><a href="#">HOME</a></li>
+    <li><a href="#">ABOUT</a></li>
+  </ul>
+ <h1 style="color:white;">Welcome to Hike Haven</h1>
     <h3><a href="explore.html">Explore</a></h3>
     
-      <script>
-     
-      </script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script>
-
-  
+    $(document).ready(function(){
+      $('.sidenav').sidenav();
+    })
   </script>
 </body>
 

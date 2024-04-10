@@ -25,6 +25,9 @@
         min-height:500px;
       }
    }
+   body{
+    background-color: aliceblue;
+   }
   </style>
   
 </head>
@@ -41,6 +44,7 @@
     <ul class="right hide-on-med-and-down">
       <li><a href="index.html">HOME</a></li>
       <li><a href="about.html">ABOUT</a></li>
+      <li><button id="logoutBtn" class="btn=small green waves-effect waves-light" style="display:none">LOGOUT</button></li>
       <li><a href="#" class="btn-small green waves-effect waves-light">LOGIN</a></li>
     </ul>
   </div>
@@ -50,17 +54,19 @@
     <li><a href="index.html">HOME</a></li>
     <li><a href="about.html">ABOUT</a></li>
   </ul>
-      <h2>My Google Maps Demo</h2>
+      <h2 style="text-align: center;">My Map</h2>
       <div class="container" id="map">  
 
       </div>
       <script>
         function initMap(){
-          let origin={lat:10.73789 ,lng:-61.61313};
-          let map=new google.maps.Map(
-          document.querySelector('#map'), {zoom:14,center:origin}
-          );
-          let marker=new google.maps.Marker({position:origin, map:map})
+         map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 10.676591, lng: -61.260061},
+              zoom: 11,
+              mapId: 'c320c40ab2398e34'
+          });
+          //let marker=new google.maps.Marker({position:origin, map:map})
+       
         }
       </script>
     

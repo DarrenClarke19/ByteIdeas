@@ -30,7 +30,46 @@
     background-repeat: no-repeat;
     background-position: center;
    }
-  
+   
+    .container.valign-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; 
+        }
+
+     
+        .welcome-container {
+            flex: 1; 
+            margin-top: 50px;
+        }
+      
+         .card-container {
+            flex: 1; 
+            padding-left: 500px; 
+        }
+
+        .explore-container {
+          flex:1;
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          margin-top:auto;
+        }
+
+       
+        .explore-btn {
+           width:auto;
+           min-width: 150px; 
+           padding: 0 10px;
+        }
+        .card{
+          width:400px;
+        } 
+        .card img{
+          width:400px;
+          height:220px;
+        }
+        
   </style>
   
 </head>
@@ -51,16 +90,86 @@
       </ul>
     </div>
     </nav>
-    <div class="container valign-wrapper ">
-      <div>
-        <h1 style="color:white; font-family: serif; padding-top: 190px;">Welcome to Hike Haven</h1>
-      </div>
-      
-    </div>
-    <div class="container" style="padding:50px;">
-      <a href="explore.html" class="waves-effect waves-light btn-large green"><i class="material-icons right">explore</i><b>EXPLORE</b></a>
-    </div>
   </header>
+    <div class="container valign-wrapper ">
+      <div class="welcome-container">
+        <h1 style="color:white; font-family: serif; padding-top:0px; padding-left:0">Welcome to Hike Haven</h1>
+        <div class="explore-container container" style="padding:50px;">
+          <a href="explore.html" class="waves-effect waves-light btn-large green explore-btn"><i class="material-icons right">explore</i><b>EXPLORE</b></a>
+        </div>
+      </div>
+      <div class="container" style="padding-left: 200px;padding-top: 100px;">
+        <div class="row">
+          <div class="col s12 16">
+            <div class="card">
+              <div class="card-img">
+                <img src="images/planecrash.webp" alt="plane-crash-img">
+                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse">
+                  <i class="material-icons">favorite</i>
+                </a>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Plane Crash Site Trail</span>
+              </div>
+              <div class="card-action">
+                <a href="">View</a>
+                <a href="">More Details</a>
+              </div>
+            </div>
+            <div class="col s12 16">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col s12 16">
+            <div class="card">
+              <div class="card-img">
+                <img src="images/breezehill.webp" alt="breezy-hill-img">
+                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse">
+                  <i class="material-icons">favorite</i>
+                </a>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Breezy Hill Circular</span>
+              </div>
+              <div class="card-action">
+                <a href="">View</a>
+                <a href="">More Details</a>
+              </div>
+            </div>
+            <div class="col s12 16">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col s12 16">
+            <div class="card">
+              <div class="card-img">
+                <img src="images/bamboocathedral.webp" alt="bamboo-cathedral-img">
+                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse">
+                  <i class="material-icons">favorite</i>
+                </a>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Bamboo Cathedral</span>
+              </div>
+              <div class="card-action">
+                <a href="">View</a>
+                <a href="">More Details</a>
+              </div>
+            </div>
+            <div class="col s12 16">
+            </div>
+          </div>
+        </div>
+   
+    </div>
+   
+ 
   <ul class="sidenav" id="mobile-links">
     <li><a href="index.html">HOME</a></li>
     <li><a href="about.html">ABOUT</a></li>

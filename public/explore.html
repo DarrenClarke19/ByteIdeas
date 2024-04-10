@@ -14,7 +14,7 @@
       height:600px;
       background-color: grey;
     }
-    header{
+    /*header{
     background: url(images/background.jpg);
     background-size: cover;
     background-position: center;
@@ -24,10 +24,26 @@
       header{
         min-height:500px;
       }
-   }
+   }*/
    body{
     background-color: aliceblue;
    }
+
+   .search-container {
+    display: flex;
+    align-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#search-input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    font-size: 14px;
+    padding-right: 20px;
+}
   </style>
   
 </head>
@@ -54,7 +70,14 @@
     <li><a href="index.html">HOME</a></li>
     <li><a href="about.html">ABOUT</a></li>
   </ul>
-      <h2 style="text-align: center;">My Map</h2>
+
+    <div class="search-container">
+       <input type="text" id="search-input" placeholder="Enter Location">
+       <button class="btn waves-effect waves-light green" type="submit" name="action">Search
+        <i class="material-icons right">search</i>
+      </button>
+    </div>
+      <h2 style="text-align: center;">Map</h2>
       <div class="container" id="map">  
 
       </div>

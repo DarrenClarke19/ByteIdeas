@@ -44,7 +44,27 @@
     border-radius: 5px 0 0 5px;
     font-size: 14px;
     padding-right: 20px;
-}
+  }
+  .hidden-details.show {
+      display: block;
+    }
+  .hidden-details {
+      display: none;
+      background-color: #f0f0f0; 
+      padding: 10px;
+      border-radius: 5px; 
+      margin-top: 10px; 
+  }
+  .hidden-details p {
+      margin: 5px 0; 
+  }
+  .card{
+    width:440px;
+  }
+  .card img{
+      width:440px;
+      height:200px;
+  }
   </style>
   
 </head>
@@ -82,7 +102,7 @@
       <div class="container" id="map" style="margin-bottom: 50px;"> 
       </div>
 
-      <div class="parallax-container">
+      <div class="parallax-container" style="margin-bottom: 170px;">
         <div class="parallax">
             <img src="images/parallax.jpg" alt="" class="responsive-img">
         </div>
@@ -98,6 +118,20 @@
               mapId: 'c320c40ab2398e34'
             });
           //let marker=new google.maps.Marker({position:origin, map:map})
+
+          document.addEventListener('DOMContentLoaded', function() {
+          const viewDetailsLinks = document.querySelectorAll('.view-details');
+
+          viewDetailsLinks.forEach(function(link) {
+              link.addEventListener('click', function(event) {
+              event.preventDefault();
+              const card = event.target.closest('.card');
+              const hiddenDetails = card.querySelector('.hidden-details');
+              hiddenDetails.classList.toggle('show');
+            });
+          });
+        });
+
           if(navigator.geolocation){
               navigator.geolocation.getCurrentPosition(function(position){
                 var pos={
@@ -137,6 +171,65 @@
                   }
                 });
              }
+             document.addEventListener('DOMContentLoaded', function() {
+    async function getData() {
+        const response = await fetch('data.json');
+        const data = await response.json();
+        return data;
+    }
+
+    async function displayAll() {
+        const state = await getData();
+        drawCards(state);
+    }
+
+    function drawCards(records) {
+        let html = '';
+        let result = document.querySelector('#hikeData');
+        for (let rec of records) {
+            html += `
+                <div class="row">
+                    <div class="col s12 16">
+                        <div class="card">
+                            <div class="card-img">
+                                <img src="${rec.image}" alt="${rec.name}-img">
+                                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse">
+                                    <i class="material-icons">favorite</i>
+                                </a>
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title">${rec.name}</span>
+                            </div>
+                            <div class="card-action">
+                                <a href="#" class="view-details">More Details</a>
+                            </div>
+                            <div class="hidden-details">
+                                <p>Location: ${rec.location}</p>
+                                <p>Length: ${rec.length}</p>
+                                <p>Difficulty: ${rec.difficulty}</p>
+                                <p>Estimated Time: ${rec.estimated_time}</p>
+                            </div>
+                        </div>
+                        <div class="col s12 16"></div>
+                    </div>
+                </div>`;
+        }
+        result.innerHTML = html;
+
+        const viewDetailsLinks = document.querySelectorAll('.view-details');
+
+        viewDetailsLinks.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const card = event.target.closest('.card');
+                const hiddenDetails = card.querySelector('.hidden-details');
+                hiddenDetails.classList.toggle('show');
+            });
+        });
+    }
+
+    displayAll();
+});
         initMap();
       </script>
     <script>
@@ -173,47 +266,10 @@
         $('.parallax').parallax();
       })
     </script>
+    
     <script>
-      let state=[];
-      async function getData(){
-          const response=await fetch('public/data.json');
-          const data=await response.json();
-          return data;
-      }
-      function drawCards(records){
-        let html='';
-        let result=document.querySelector('#');
-        for(let rec of records){
-          html+=` <div class="row">
-          <div class="col s12 16">
-            <div class="card">
-              <div class="card-img">
-                <img src="${rec.image}" alt="${rec.image}-img">
-                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse">
-                  <i class="material-icons">favorite</i>
-                </a>
-              </div>
-              <div class="card-content">
-                <span class="card-title">${rec.name}</span>
-              </div>
-              <div class="card-action">
-                <a href="">View</a>
-                <a href="">More Details</a>
-              </div>
-            </div>
-            <div class="col s12 16">
-            </div>
-          </div>
-        </div>
-          
-          `
-        }
-      }
-      async function displayAll(){
-        state=await getData();
-        drawCards(state);
-      }
-    </script>
+      
+      </script>
 </body>
 
 </html>

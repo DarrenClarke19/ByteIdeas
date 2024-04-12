@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <title>Hike Haven</title>
 
@@ -73,7 +74,7 @@
 
     <div class="search-container">
        <input type="text" id="search-input" placeholder="Enter Location">
-       <button class="btn waves-effect waves-light green" type="submit" name="action">Search
+       <button class="btn waves-effect waves-light green" type="submit" name="action" onclick="searchLocation()">Search
         <i class="material-icons right">search</i>
       </button>
     </div>
@@ -89,19 +90,81 @@
       
       <script>
         function initMap(){
-         map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 10.676591, lng: -61.260061},
+            map = new google.maps.Map(document.getElementById('map'), {
+              center: {lat: 10.676591, lng: -61.260061},
               zoom: 11,
               mapId: 'c320c40ab2398e34'
-          });
+            });
           //let marker=new google.maps.Marker({position:origin, map:map})
-       
-        }
+          if(navigator.geolocation){
+              navigator.geolocation.getCurrentPosition(function(position){
+                var pos={
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude
+                };
+              map.setCenter(pos);
+              map.setZoom(15);
+              var marker = new google.maps.Marker({
+                position: pos,
+                map: map,
+                title: 'Your Location'
+              });
+              }, 
+              function(){
+                handleLocationError(true, map.getCenter());
+              });
+            }else{
+              handleLocationError(false, map.getCenter());
+            }
+          }
+          function handleLocationError(browserHasGeolocation, pos){
+               var errorMessage=browserHasGeolocation?
+              'Error: The Geolocation service failed.' :
+              'Error: Your browser doesn\'t support geolocation.';
+              console.error(errorMessage);
+            }  
+            function searchLocation() {
+                var input = document.querySelector('#search-input').value;
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ 'address': input }, function (results, status) {
+                if (status == 'OK') {
+                    map.setCenter(results[0].geometry.location);
+                    map.setZoom(15);
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                  }
+                });
+             }
+        initMap();
       </script>
-    
-  <script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyAPBFkgK-cPJayFS47HZFc8nGThlQhulX8&callback=initMap&libraries=&v=weekly&map_ids=c320c40ab2398e34"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+        // Initialize Google Places Autocomplete on search input
+        var input = document.querySelector('#search-input');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map); // Restrict Autocomplete to map bounds
+        // Listen for the 'place_changed' event to handle user selection
+        autocomplete.addListener('place_changed', function() {
+        var place = autocomplete.getPlace();
+        if (!place.geometry) {
+            // User entered a place not returned by Google
+            return;
+        }
+        // If place has geometry, center the map on the selected place
+        if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+        } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(15); // Set a default zoom level
+        }
+       });
+      });
+    </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyBgj40pJo2Itk5sDKEZMbCQC9NTsvMHOU8&callback=initMap&libraries=&v=weekly&map_ids=c320c40ab2398e34"></script>
     <!-- Compiled and minified JavaScript -->
+    <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgj40pJo2Itk5sDKEZMbCQC9NTsvMHOU8&loading=async&libraries=places&callback=initMap">
+</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
       $(document).ready(function(){

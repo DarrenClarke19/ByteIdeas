@@ -62,14 +62,23 @@
            min-width: 150px; 
            padding: 0 10px;
         }
-        .card{
-          width:400px;
-        } 
         .card img{
-          width:400px;
-          height:220px;
+          width:440px;
+          height:200px;
         }
-        
+        .hidden-details.show {
+          display: block;
+        }
+        .hidden-details {
+          display: none;
+          background-color: #f0f0f0; 
+          padding: 10px;
+          border-radius: 5px; 
+          margin-top: 10px; 
+        }
+        .hidden-details p {
+          margin: 5px 0; /* Add some space between paragraphs */
+        }
   </style>
   
 </head>
@@ -112,8 +121,13 @@
                 <span class="card-title">Plane Crash Site Trail</span>
               </div>
               <div class="card-action">
-                <a href="">View</a>
-                <a href="">More Details</a>
+                <a href="" class="view-details">More Details</a>
+              </div>
+              <div class="hidden-details">
+                <p>Location: Diego Martin, Trinidad and Tobago</p>
+                <p>Length: 8.5 km</p>
+                <p>Difficulty: Moderate</p>
+                <p>Estimated Time: 3h 9m</p>
               </div>
             </div>
             <div class="col s12 16">
@@ -135,15 +149,20 @@
                 <span class="card-title">Breezy Hill Circular</span>
               </div>
               <div class="card-action">
-                <a href="">View</a>
-                <a href="">More Details</a>
+                <a href="" class="view-details">More Details</a>
+              </div>
+              <div class="hidden-details">
+                <p>Location: San Juan, San Juan-Laventille, Trinidad and Tobago</p>
+                <p>Length: 4 km</p>
+                <p>Difficulty: Moderate</p>
+                <p>Estimated Time: 1h 59m</p>
               </div>
             </div>
             <div class="col s12 16">
             </div>
           </div>
         </div>
-
+   
 
         <div class="row">
           <div class="col s12 16">
@@ -158,15 +177,19 @@
                 <span class="card-title">Bamboo Cathedral</span>
               </div>
               <div class="card-action">
-                <a href="">View</a>
-                <a href="">More Details</a>
+                <a href="" class="view-details">More Details</a>
+              </div>
+              <div class="hidden-details">
+                <p>Location: San Juan, San Juan-Laventille, Trinidad and Tobago</p>
+                <p>Length: 4.7 km</p>
+                <p>Difficulty: Easy</p>
               </div>
             </div>
             <div class="col s12 16">
             </div>
           </div>
         </div>
-   
+
     </div>
    
  
@@ -189,6 +212,21 @@
       var side=document.querySelectorAll('.sidenav');
       M.Sidenav.init(side);
     })
+  </script>
+  <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewDetailsLinks = document.querySelectorAll('.view-details');
+
+            viewDetailsLinks.forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const card = event.target.closest('.card');
+                const hiddenDetails = card.querySelector('.hidden-details');
+                hiddenDetails.classList.toggle('show');
+              });
+            });
+          });
+
   </script>
 </body>
 

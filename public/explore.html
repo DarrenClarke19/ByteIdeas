@@ -87,7 +87,9 @@
             <img src="images/parallax.jpg" alt="" class="responsive-img">
         </div>
       </div>
-      
+      <div class="container" id="hikeData">
+
+      </div>
       <script>
         function initMap(){
             map = new google.maps.Map(document.getElementById('map'), {
@@ -170,6 +172,47 @@
       $(document).ready(function(){
         $('.parallax').parallax();
       })
+    </script>
+    <script>
+      let state=[];
+      async function getData(){
+          const response=await fetch('public/data.json');
+          const data=await response.json();
+          return data;
+      }
+      function drawCards(records){
+        let html='';
+        let result=document.querySelector('#');
+        for(let rec of records){
+          html+=` <div class="row">
+          <div class="col s12 16">
+            <div class="card">
+              <div class="card-img">
+                <img src="${rec.image}" alt="${rec.image}-img">
+                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse">
+                  <i class="material-icons">favorite</i>
+                </a>
+              </div>
+              <div class="card-content">
+                <span class="card-title">${rec.name}</span>
+              </div>
+              <div class="card-action">
+                <a href="">View</a>
+                <a href="">More Details</a>
+              </div>
+            </div>
+            <div class="col s12 16">
+            </div>
+          </div>
+        </div>
+          
+          `
+        }
+      }
+      async function displayAll(){
+        state=await getData();
+        drawCards(state);
+      }
     </script>
 </body>
 

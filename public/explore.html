@@ -111,10 +111,9 @@
       <a class='dropdown-trigger btn green lighten-1' href='#' data-target='dropdown1' style="margin-bottom: 60px;margin-left: 50px;min-width:160px;min-height: 40px;">Filter By<i class="material-icons">arrow_drop_down</i></a>
       <ul id='dropdown1' class='dropdown-content'>
           <li><a href="#!" onclick="filterByAscendingName()">Ascending(Name)</a></li>
-          <li><a href="#!">Difficulty:Easy</a></li>
-          <li><a href="#!">Difficulty:Moderate</a></li>
-          <li><a href="#!">Difficulty:Hard</a></li>
-          <li><a href="#!">Ascending(Length)</a></li>
+          <li><a href="#!" onclick="filterByDifficulty('Easy')">Difficulty:Easy</a></li>
+          <li><a href="#!" onclick="filterByDifficulty('Moderate')">Difficulty:Moderate</a></li>
+          <li><a href="#!" onclick="filterByDifficulty('Hard')">Difficulty:Hard</a></li>
       </ul>
       <div class="container" id="hikeData">
 
@@ -231,6 +230,14 @@ function nameCompare(a, b) {
 function filterByAscendingName() {
     let result = state.sort(nameCompare);
     drawCards(result);
+}
+function filterByDifficulty(difficulty){
+  let filtered=[];
+  for(let rec of state){
+    if(rec.difficulty===difficulty)
+      filtered.push(rec);
+  }
+  drawCards(filtered);
 }
 
 document.addEventListener('DOMContentLoaded', function() {

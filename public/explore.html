@@ -102,37 +102,33 @@
       <div class="container" id="map" style="margin-bottom: 50px;"> 
       </div>
 
-      <div class="parallax-container" style="margin-bottom: 170px;">
+      <div class="parallax-container" style="margin-bottom: 150px;">
         <div class="parallax">
             <img src="images/parallax.jpg" alt="" class="responsive-img">
         </div>
       </div>
+    
+      <a class='dropdown-trigger btn green lighten-1' href='#' data-target='dropdown1' style="margin-bottom: 60px;margin-left: 50px;min-width:160px;min-height: 40px;">Filter By<i class="material-icons">arrow_drop_down</i></a>
+      <ul id='dropdown1' class='dropdown-content'>
+          <li><a href="#!" onclick="filterByAscendingName()">Ascending(Name)</a></li>
+          <li><a href="#!">Difficulty:Easy</a></li>
+          <li><a href="#!">Difficulty:Moderate</a></li>
+          <li><a href="#!">Difficulty:Hard</a></li>
+          <li><a href="#!">Ascending(Length)</a></li>
+      </ul>
       <div class="container" id="hikeData">
 
       </div>
-      <script>
-        function initMap(){
-            map = new google.maps.Map(document.getElementById('map'), {
+<script>
+       let state = []; 
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
               center: {lat: 10.676591, lng: -61.260061},
               zoom: 11,
               mapId: 'c320c40ab2398e34'
             });
-          //let marker=new google.maps.Marker({position:origin, map:map})
-
-          document.addEventListener('DOMContentLoaded', function() {
-          const viewDetailsLinks = document.querySelectorAll('.view-details');
-
-          viewDetailsLinks.forEach(function(link) {
-              link.addEventListener('click', function(event) {
-              event.preventDefault();
-              const card = event.target.closest('.card');
-              const hiddenDetails = card.querySelector('.hidden-details');
-              hiddenDetails.classList.toggle('show');
-            });
-          });
-        });
-
-          if(navigator.geolocation){
+            if(navigator.geolocation){
               navigator.geolocation.getCurrentPosition(function(position){
                 var pos={
                   lat: position.coords.latitude,
@@ -145,46 +141,48 @@
                 map: map,
                 title: 'Your Location'
               });
-              }, 
-              function(){
+              },
+            function(){
                 handleLocationError(true, map.getCenter());
               });
             }else{
               handleLocationError(false, map.getCenter());
             }
           }
-          function handleLocationError(browserHasGeolocation, pos){
-               var errorMessage=browserHasGeolocation?
-              'Error: The Geolocation service failed.' :
-              'Error: Your browser doesn\'t support geolocation.';
-              console.error(errorMessage);
-            }  
-            function searchLocation() {
-                var input = document.querySelector('#search-input').value;
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({ 'address': input }, function (results, status) {
-                if (status == 'OK') {
-                    map.setCenter(results[0].geometry.location);
-                    map.setZoom(15);
-                } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                  }
-                });
-             }
-             document.addEventListener('DOMContentLoaded', function() {
-    async function getData() {
-        const response = await fetch('data.json');
-        const data = await response.json();
-        return data;
-    }
+function handleLocationError(browserHasGeolocation, pos) {
+  var errorMessage=browserHasGeolocation?
+  'Error: The Geolocation service failed.' :
+  'Error: Your browser doesn\'t support geolocation.';
+   console.error(errorMessage);
 
-    async function displayAll() {
-        const state = await getData();
-        drawCards(state);
-    }
+}
 
-    function drawCards(records) {
-        let html = '';
+function searchLocation() {
+  var input = document.querySelector('#search-input').value;
+  var geocoder = new google.maps.Geocoder();
+  geocoder.geocode({ 'address': input }, function (results, status) {
+  if (status == 'OK') {
+  map.setCenter(results[0].geometry.location);
+  map.setZoom(15);
+  }else{
+    alert('Geocode was not successful for the following reason: ' + status);
+  }
+  });
+}
+
+async function getData() {
+    const response = await fetch('data.json');
+    const data = await response.json();
+    return data;
+}
+
+async function displayAll() {
+    state = await getData();
+    drawCards(state);
+}
+
+function drawCards(records) {
+  let html = '';
         let result = document.querySelector('#hikeData');
         for (let rec of records) {
             html += `
@@ -215,61 +213,66 @@
                 </div>`;
         }
         result.innerHTML = html;
-
         const viewDetailsLinks = document.querySelectorAll('.view-details');
-
         viewDetailsLinks.forEach(function(link) {
-            link.addEventListener('click', function(event) {
-                event.preventDefault();
-                const card = event.target.closest('.card');
-                const hiddenDetails = card.querySelector('.hidden-details');
-                hiddenDetails.classList.toggle('show');
-            });
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const card = event.target.closest('.card');
+            const hiddenDetails = card.querySelector('.hidden-details');
+            hiddenDetails.classList.toggle('show');
         });
-    }
+      });
+}
 
+function nameCompare(a, b) {
+  return a.name.localeCompare(b.name);
+}
+
+function filterByAscendingName() {
+    let result = state.sort(nameCompare);
+    drawCards(result);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
     displayAll();
-});
-        initMap();
-      </script>
-    <script>
-        $(document).ready(function(){
-        // Initialize Google Places Autocomplete on search input
-        var input = document.querySelector('#search-input');
-        var autocomplete = new google.maps.places.Autocomplete(input);
-        autocomplete.bindTo('bounds', map); // Restrict Autocomplete to map bounds
-        // Listen for the 'place_changed' event to handle user selection
-        autocomplete.addListener('place_changed', function() {
+    var options = {};
+    var elems = document.querySelectorAll('.dropdown-trigger');
+    var instances = M.Dropdown.init(elems, options);
+
+    
+    var input = document.querySelector('#search-input');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.bindTo('bounds', map); 
+
+   
+    autocomplete.addListener('place_changed', function() {
         var place = autocomplete.getPlace();
         if (!place.geometry) {
-            // User entered a place not returned by Google
             return;
         }
-        // If place has geometry, center the map on the selected place
+
         if (place.geometry.viewport) {
             map.fitBounds(place.geometry.viewport);
         } else {
             map.setCenter(place.geometry.location);
-            map.setZoom(15); // Set a default zoom level
+            map.setZoom(15);
         }
-       });
-      });
-    </script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyBgj40pJo2Itk5sDKEZMbCQC9NTsvMHOU8&callback=initMap&libraries=&v=weekly&map_ids=c320c40ab2398e34"></script>
-    <!-- Compiled and minified JavaScript -->
-    <script async
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgj40pJo2Itk5sDKEZMbCQC9NTsvMHOU8&loading=async&libraries=places&callback=initMap">
-</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
-      $(document).ready(function(){
-        $('.parallax').parallax();
-      })
-    </script>
+    });
+});
     
-    <script>
-      
-      </script>
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyBgj40pJo2Itk5sDKEZMbCQC9NTsvMHOU8&callback=initMap&libraries=&v=weekly&map_ids=c320c40ab2398e34"></script>
+<!-- Compiled and minified JavaScript -->
+<script async
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgj40pJo2Itk5sDKEZMbCQC9NTsvMHOU8&loading=async&libraries=places&callback=initMap">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $('.parallax').parallax();
+  })
+</script>
+
 </body>
 
 </html>

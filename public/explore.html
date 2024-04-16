@@ -69,13 +69,49 @@
     vertical-align: middle;
     margin-bottom: -1px; 
   }
-  .rating label {
-    font-size: 30px; 
-}
+  
 form label{
   font-size:15px;
   color:black;
 }
+.rating {
+    font-size: 30px;
+}
+.rating .star {
+    cursor: pointer;
+}
+.rating .star:hover,
+.rating .star:hover ~ .star {
+    color: transparent; 
+}
+.rating .star:hover,
+.rating .star:hover:before {
+    color: yellow; 
+}
+.grid-container{
+    display: grid;
+    grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .review-card{
+      border:1px solid #ccc;
+      border-radius:5px;
+      padding: 20px;
+      background-color: #f9f9f9;
+  }
+  .reviewer {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .rating {
+    color: gold;
+    margin-bottom: 10px;
+  }
+  .review-text {
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+
   </style>
   
 </head>
@@ -92,8 +128,8 @@ form label{
     <ul class="right hide-on-med-and-down">
       <li><a href="index.html">HOME</a></li>
       <li><a href="explore.html">HIKES</a></li>
-      <li><button id="logoutBtn" class="btn=small green waves-effect waves-light" style="display:none">LOGOUT</button></li>
-      <li><a href="#" class="btn-small green waves-effect waves-light">LOGIN</a></li>
+      <li><button id="logoutBtn" class="btn-small green waves-effect waves-light" style="display:none">LOGOUT</button></li>
+      <li><a href="#" class="btn-small green waves-effect waves-light" id="loginBtn">LOGIN</a></li>
     </ul>
   </div>
   </nav>
@@ -126,8 +162,19 @@ form label{
           <li><a href="#!" onclick="filterByDifficulty('Moderate')">Difficulty:Moderate</a></li>
           <li><a href="#!" onclick="filterByDifficulty('Hard')">Difficulty:Hard</a></li>
       </ul>
-      <div class="container" id="hikeData">
+      <div class="container">
+        <div class="row">
+          <div class="col s12 m6">
+              <h4 style="text-align: center;">Popular Hikes</h4>
+              <div id="hikeData" class="row"></div>
+          </div>
+          <div class="col s12 m6">
+              <h4 style="text-align: center;">Reviews Section</h4>
+              <div class="grid-container" id="reviews">
 
+              </div>
+          </div>
+      </div>
       </div>
       <div class="container">
         <h1>Leave a Review</h1>
@@ -141,27 +188,12 @@ form label{
                 <input type="text" placeholder="Enter the Hike Name" name="Hike Name" />
             </label>
             <div class="rating">
-                <label>
-                    &#9733;
-                    <input type="radio" id="rating5" name="rating" value="5" required>
-                </label>
-                <label>
-                    &#9733;
-                    <input type="radio" id="rating4" name="rating" value="4">
-                </label>
-                <label>
-                    &#9733;
-                    <input type="radio" id="rating3" name="rating" value="3">
-                </label>
-                <label>
-                    &#9733;
-                    <input type="radio" id="rating2" name="rating" value="2">
-                </label>
-                <label>
-                    &#9733;
-                    <input type="radio" id="rating1" name="rating" value="1">
-                </label>
-            </div>
+              <span class="star" data-value="1">&#9734;</span>
+              <span class="star" data-value="2">&#9734;</span>
+              <span class="star" data-value="3">&#9734;</span>
+              <span class="star" data-value="4">&#9734;</span>
+              <span class="star" data-value="5">&#9734;</span>
+          </div>
     
             <label>
                 Your Review:
@@ -172,7 +204,7 @@ form label{
                 <input type="file" id="picture" name="picture" accept="image/*">
             </label>
             
-            <button type="submit" class="btn-small green lighten-1">Submit</button>
+            <button type="submit" class="btn-small green lighten-1" id="reviewBtn">Submit</button>
         </form>
     </div>
 <script>
@@ -227,7 +259,7 @@ function searchLocation() {
 }
 
 async function getData() {
-    const response = await fetch('data.json');
+    const response = await fetch('hikes.json');
     const data = await response.json();
     return data;
 }
@@ -322,9 +354,105 @@ document.addEventListener('DOMContentLoaded', function() {
             map.setZoom(15);
         }
     });
+    document.getElementById('reviewForm').addEventListener('submit', submitReview); //Event Listener for Review Form
 });
-    
+  async function submitReview(event){
+    event.preventDefault();
+    let form = event.target;
+    let formData = new FormData(form);
+    const {reviewer,hikeName,rating,text} = Object.fromEntries(formData);
+    if(auth.currentUser===null){
+        alert('Please login to review');
+    }else{
+      await createReview(auth,hikeName,rating,text);
+      M.toast({html: 'Review created!'});
+      form.reset();
+      getReviews(hikeName, renderReviews);
+    }
+  }
+  const stars = document.querySelectorAll('.rating .star');
+  stars.forEach((star, index) => {
+    star.addEventListener('mouseover', function() {
+        const value = this.getAttribute('data-value');
+        highlightStars(value, index);
+    });
+
+    star.addEventListener('click', function() {
+        const value = this.getAttribute('data-value');
+        fillStars(value);
+    });
+});
+
+function highlightStars(value, index) {
+    stars.forEach((star, i) => {
+        if (i <= index) {
+            star.classList.add('filled');
+        } else {
+            star.classList.remove('filled');
+        }
+    });
+}
+
+function fillStars(value) {
+    stars.forEach((star) => {
+        const starValue = star.getAttribute('data-value');
+        if (starValue <= value) {
+            star.classList.add('filled');
+        } else {
+            star.classList.remove('filled');
+        }
+    });
+}
+
 </script>
+  <script type="module">
+      import { signIn, logout, auth, setAuthListeners } from './auth.js';
+      import { getBooks, getReviews, createReview, deleteReview } from './data.js';
+
+      let loginBtn = document.querySelector('#loginBtn');
+      let logoutBtn = document.querySelector('#logoutBtn');
+      let reviewForm = document.querySelector('#reviewForm');
+
+      function setLoggedInUI(){
+          M.toast({html: 'Logged In!'})
+          document.querySelector('#user').innerHTML = `Signed in Anonymously`;
+          document.querySelector('#loginBtn').style.display = 'none';
+          document.querySelector('#logoutBtn').style.display = 'inline-block';
+      }
+
+      function setLoggedOutUI(){
+          M.toast({html: 'Logged Out!'})
+          document.querySelector('#user').innerHTML = '';
+          document.querySelector('#loginBtn').style.display = 'inline-block';
+          document.querySelector('#logoutBtn').style.display = 'none';
+      }
+
+      //attatch listeners
+      logoutBtn.addEventListener('click', logout);
+      loginBtn.addEventListener('click', signIn);
+      setAuthListeners(setLoggedInUI, setLoggedOutUI);
+
+      //Display Reviews
+      function renderReviews(reviews){
+        let reviewsList = document.querySelector('#reviews');
+        let html = '';
+        for (let review of reviews){
+          let starsHTML = '';
+          for (let i =0;i<review.rating;i++){
+            starsHTML += '★';
+          }
+          for (let i=review.rating;i<5;i++){
+            starsHTML += '☆';
+          }
+          html +=`<div class="review-card">
+            <div class="reviewer">${review.reviewer}</div>
+            <div class="rating">${starsHTML}</div>
+            <div class="review-text">${review.hikeName}<br>${review.text}</div>
+        </div> `;
+        }
+        reviewsList.innerHTML=html;
+      }
+      </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyBgj40pJo2Itk5sDKEZMbCQC9NTsvMHOU8&callback=initMap&libraries=&v=weekly&map_ids=c320c40ab2398e34"></script>
 <!-- Compiled and minified JavaScript -->
 <script async

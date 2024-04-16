@@ -65,6 +65,17 @@
       width:440px;
       height:200px;
   }
+  .dropdown-trigger .material-icons {
+    vertical-align: middle;
+    margin-bottom: -1px; 
+  }
+  .rating label {
+    font-size: 30px; 
+}
+form label{
+  font-size:15px;
+  color:black;
+}
   </style>
   
 </head>
@@ -107,8 +118,8 @@
             <img src="images/parallax.jpg" alt="" class="responsive-img">
         </div>
       </div>
-    
       <a class='dropdown-trigger btn green lighten-1' href='#' data-target='dropdown1' style="margin-bottom: 60px;margin-left: 50px;min-width:160px;min-height: 40px;">Filter By<i class="material-icons">arrow_drop_down</i></a>
+      <a class="btn green lighten-1 waves-effect waves-light" href="#reviewForm" style="margin-bottom:60px;margin-left:50px;min-width:160px;min-height: 40px;">Leave a Review</a>
       <ul id='dropdown1' class='dropdown-content'>
           <li><a href="#!" onclick="filterByAscendingName()">Ascending(Name)</a></li>
           <li><a href="#!" onclick="filterByDifficulty('Easy')">Difficulty:Easy</a></li>
@@ -118,6 +129,52 @@
       <div class="container" id="hikeData">
 
       </div>
+      <div class="container">
+        <h1>Leave a Review</h1>
+        <form id="reviewForm">
+            <label>
+                Your Name:
+                <input type="text" placeholder="Enter your name" name="fullname" />
+            </label>
+            <label>
+                Name of Hike:
+                <input type="text" placeholder="Enter the Hike Name" name="Hike Name" />
+            </label>
+            <div class="rating">
+                <label>
+                    &#9733;
+                    <input type="radio" id="rating5" name="rating" value="5" required>
+                </label>
+                <label>
+                    &#9733;
+                    <input type="radio" id="rating4" name="rating" value="4">
+                </label>
+                <label>
+                    &#9733;
+                    <input type="radio" id="rating3" name="rating" value="3">
+                </label>
+                <label>
+                    &#9733;
+                    <input type="radio" id="rating2" name="rating" value="2">
+                </label>
+                <label>
+                    &#9733;
+                    <input type="radio" id="rating1" name="rating" value="1">
+                </label>
+            </div>
+    
+            <label>
+                Your Review:
+                <textarea id="comment" name="comment" required></textarea>
+            </label>
+            <label>
+                Add Picture:
+                <input type="file" id="picture" name="picture" accept="image/*">
+            </label>
+            
+            <button type="submit" class="btn-small green lighten-1">Submit</button>
+        </form>
+    </div>
 <script>
        let state = []; 
 

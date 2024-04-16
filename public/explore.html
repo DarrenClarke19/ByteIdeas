@@ -278,7 +278,7 @@ function drawCards(records) {
                         <div class="card">
                             <div class="card-img">
                                 <img src="${rec.image}" alt="${rec.name}-img">
-                                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse">
+                                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse fav-icon">
                                     <i class="material-icons">favorite</i>
                                 </a>
                             </div>
@@ -353,7 +353,19 @@ document.addEventListener('DOMContentLoaded', function() {
             map.setZoom(15);
         }
     });
-    document.getElementById('reviewForm').addEventListener('submit', submitReview); //Event Listener for Review Form
+    document.getElementById('reviewForm').addEventListener('submit', submitReview); 
+    document.querySelectorAll('.fav-icon').forEach(icon => {
+                icon.addEventListener('click', function(event) {
+                      const card = event.target.closest('.card');
+                      if (card) {
+                      const titleElement = card.querySelector('.card-title');
+                      if (titleElement) {
+                      const hikeName = titleElement.textContent.trim();
+                      addToFavourites(hikeName);
+                      }
+                    }
+                  });
+            });
 });
   async function submitReview(event){
     event.preventDefault();
@@ -406,7 +418,7 @@ function fillStars(value) {
 </script>
   <script type="module">
       import { signIn, logout, auth, setAuthListeners } from './auth.js';
-      import { getBooks, getReviews, createReview, deleteReview } from './data.js';
+      import { getReviews, createReview, deleteReview, addToFavourites} from './data.js';
 
       let loginBtn = document.querySelector('#loginBtn');
       let logoutBtn = document.querySelector('#logoutBtn');

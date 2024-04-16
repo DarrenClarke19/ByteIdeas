@@ -40,5 +40,18 @@ async function deleteReview(auth, reviewId){
         return false;
     }
 }
-
-export {getBooks, getReviews, createReview, deleteReview};
+async function addToFavourites(hikeName) {
+    const userId = firebase.auth().currentUser.uid;
+    const userRef = db.collection('users').doc(userId);
+    const favouritesSnapshot = await userRef.collection('favourites').where('hikeName', '==', hikeName).get();
+    if (favouritesSnapshot.empty) {
+        await userRef.collection('favourites').add({
+            hikeName: hikeName,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        console.log('Hike added to favourites!');
+    }else{
+        console.log('Hike is already in favourites!');
+    }
+}
+export {getReviews, createReview, deleteReview,addToFavourites};

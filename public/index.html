@@ -113,7 +113,7 @@
             <div class="card">
               <div class="card-img">
                 <img src="images/planecrash.webp" alt="plane-crash-img">
-                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse">
+                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse fav-icon">
                   <i class="material-icons">favorite</i>
                 </a>
               </div>
@@ -141,7 +141,7 @@
             <div class="card">
               <div class="card-img">
                 <img src="images/breezehill.webp" alt="breezy-hill-img">
-                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse">
+                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse fav-icon">
                   <i class="material-icons">favorite</i>
                 </a>
               </div>
@@ -169,7 +169,7 @@
             <div class="card">
               <div class="card-img">
                 <img src="images/bamboocathedral.webp" alt="bamboo-cathedral-img">
-                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse">
+                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse fav-icon">
                   <i class="material-icons">favorite</i>
                 </a>
               </div>
@@ -226,10 +226,44 @@
               });
             });
           });
-
+          document.querySelectorAll('.fav-icon').forEach(icon => {
+                icon.addEventListener('click', function(event) {
+                      const card = event.target.closest('.card');
+                      if (card) {
+                      const titleElement = card.querySelector('.card-title');
+                      if (titleElement) {
+                      const hikeName = titleElement.textContent.trim();
+                      addToFavourites(hikeName);
+                      }
+                    }
+                  });
+            });
   </script>
-  <script>
-    
+      <script type="module">
+      import { signIn, logout, auth, setAuthListeners } from './auth.js';
+      import { getReviews, createReview, deleteReview, addToFavourites } from './data.js';
+
+      let loginBtn = document.querySelector('#loginBtn');
+      let logoutBtn = document.querySelector('#logoutBtn');
+      let reviewForm = document.querySelector('#reviewForm');
+
+      function setLoggedInUI(){
+          M.toast({html: 'Logged In!'})
+          document.querySelector('#user').innerHTML = `Signed in Anonymously`;
+          document.querySelector('#loginBtn').style.display = 'none';
+          document.querySelector('#logoutBtn').style.display = 'inline-block';
+      }
+
+      function setLoggedOutUI(){
+          M.toast({html: 'Logged Out!'})
+          document.querySelector('#user').innerHTML = '';
+          document.querySelector('#loginBtn').style.display = 'inline-block';
+          document.querySelector('#logoutBtn').style.display = 'none';
+      }
+
+      logoutBtn.addEventListener('click', logout);
+      loginBtn.addEventListener('click', signIn);
+      setAuthListeners(setLoggedInUI, setLoggedOutUI);
   </script>
 </body>
 

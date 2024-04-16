@@ -208,8 +208,8 @@ form label{
         </form>
     </div>
 <script>
-       let state = []; 
-let userMarker;
+    let state = [];
+    let marker; 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
               center: {lat: 10.676591, lng: -61.260061},
@@ -224,7 +224,7 @@ function initMap() {
                 };
               map.setCenter(pos);
               map.setZoom(15);
-              userMarker = new google.maps.Marker({
+              marker = new google.maps.Marker({
                 position: pos,
                 map: map,
                 title: 'Your Location'
@@ -250,15 +250,7 @@ function searchLocation() {
   geocoder.geocode({ 'address': input }, function (results, status) {
   if (status == 'OK') {
   map.setCenter(results[0].geometry.location);
-  map.setZoom(8);
-  if(userMarker){
-    userMarker.setMap(null);
-  }
-  userMarker = new google.maps.Marker({
-        map: map,
-        position: results[0].geometry.location,
-        title: 'Searched Location'
-      });
+  map.setZoom(15);
   }else{
     alert('Geocode was not successful for the following reason: ' + status);
   }

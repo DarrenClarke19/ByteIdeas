@@ -94,12 +94,13 @@
       <ul class="right hide-on-med-and-down">
         <li><a href="index.html">HOME</a></li>
         <li><a href="explore.html">HIKES</a></li>
-        <li><button id="logoutBtn" class="btn=small green waves-effect waves-light" style="display:none">LOGOUT</button></li>
+        <li><button id="logoutBtn" class="btn-small green waves-effect waves-light" style="display:none">LOGOUT</button></li>
         <li><button id="loginBtn" class="btn-small green waves-effect waves-light">LOGIN</a></li>
       </ul>
     </div>
     </nav>
   </header>
+  <div id="user" style="color:white;"></div>
     <div class="container valign-wrapper ">
       <div class="welcome-container">
         <h1 style="color:white; font-family: serif; padding-top:0px; padding-left:0">Welcome to Hike Haven</h1>
@@ -247,22 +248,28 @@
       let logoutBtn = document.querySelector('#logoutBtn');
       let reviewForm = document.querySelector('#reviewForm');
 
-      function setLoggedInUI(){
-          M.toast({html: 'Logged In!'})
-          document.querySelector('#user').innerHTML = `Signed in Anonymously`;
-          document.querySelector('#loginBtn').style.display = 'none';
-          document.querySelector('#logoutBtn').style.display = 'inline-block';
-      }
 
-      function setLoggedOutUI(){
-          M.toast({html: 'Logged Out!'})
-          document.querySelector('#user').innerHTML = '';
-          document.querySelector('#loginBtn').style.display = 'inline-block';
-          document.querySelector('#logoutBtn').style.display = 'none';
-      }
+function setLoggedInUI() {
+    M.toast({ html: 'Logged In!' });
+    document.querySelector('#user').innerHTML = `Signed in Anonymously`;
+    document.querySelector('#loginBtn').style.display = 'none';
+    document.querySelector('#logoutBtn').style.display = 'inline-block';
+}
 
-      logoutBtn.addEventListener('click', logout);
-      loginBtn.addEventListener('click', signIn);
+function setLoggedOutUI() {
+    M.toast({ html: 'Logged Out!' });
+    document.querySelector('#user').innerHTML = '';
+    document.querySelector('#loginBtn').style.display = 'inline-block';
+    document.querySelector('#logoutBtn').style.display = 'none';
+}
+
+logoutBtn.addEventListener('click', function() {
+    logout();
+});
+
+loginBtn.addEventListener('click', function() {
+    signIn();
+});
       setAuthListeners(setLoggedInUI, setLoggedOutUI);
   </script>
 </body>

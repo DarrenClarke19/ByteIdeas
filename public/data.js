@@ -49,9 +49,9 @@ async function addToFavourites(hikeName) {
             hikeName: hikeName,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
-        console.log('Hike added to favourites!');
+        M.toast({ html: 'Hike Added to Favourites!' });
     }else{
-        console.log('Hike is already in favourites!');
+        M.toast({ html: 'Hike is Already in Favourites!' });
     }
 }
 export {getReviews, createReview, deleteReview,addToFavourites};

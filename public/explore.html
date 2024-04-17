@@ -188,6 +188,7 @@ form label{
               <span class="star" data-value="3">&#9734;</span>
               <span class="star" data-value="4">&#9734;</span>
               <span class="star" data-value="5">&#9734;</span>
+              <input type="hidden" id="selectedRating" name="rating" value="">
           </div>
     
             <label>
@@ -196,7 +197,7 @@ form label{
             </label>
           
             
-            <button type="submit" class="btn-small green lighten-1" id="reviewBtn">Submit</button>
+            <button type="submit" class="btn-small green lighten-1" id="submitBtn">Submit</button>
         </form>
     </div>
 <script>
@@ -385,6 +386,7 @@ function highlightStars(value, index) {
 }
 
 function fillStars(value) {
+    document.getElementById('selectedRating').value = value;
     stars.forEach((star) => {
         const starValue = star.getAttribute('data-value');
         if (starValue <= value) {
@@ -426,22 +428,20 @@ loginBtn.addEventListener('click', function() {
     signIn();
 });
       setAuthListeners(setLoggedInUI, setLoggedOutUI);
-
+      document.querySelector('#reviewForm').addEventListener('submit', submitReview);
       async function submitReview(event) {
           event.preventDefault();
           const form=event.target;
           const formData=new FormData(form);
-          const hikeName=formData.get('hikeName'); 
-          const rating=parseInt(formData.get('rating')); 
-          const text=formData.get('comment');
-          if(!hikeName || !rating || !text){
-              alert('Please fill in all fields!');
-              return;
-          }
+          const data=Object.fromEntries(formData);
           if(auth.currentUser === null){
             alert('Please login to review');
             return;
           }
+          console.log(data);
+          const hikeName = data.hikeName;
+          const rating = data.rating;
+          const text = data.comment;
             await createReview(auth, hikeName, rating, text);
             M.toast({html: 'Review created!'});
             form.reset();

@@ -23,7 +23,7 @@ async function createReview(auth, hikeName,rating, text){
         rating,
         text,
         userId: auth.currentUser.uid,
-        reviewer: auth.displayName || "Anonymous User"
+        reviewer: auth.currentUser.displayName || "Anonymous User"
     };
     addDoc(collection(db, "reviews"), reviewData)
 }

@@ -178,15 +178,11 @@ form label{
       <div class="container">
         <h1>Leave a Review</h1>
         <form id="reviewForm">
-            <label>
-                Your Name:
-                <input type="text" placeholder="Enter your name" name="fullname" />
-            </label>
-            <label>
-                Name of Hike:
-                <input type="text" placeholder="Enter the Hike Name" name="Hike Name" />
-            </label>
-            <div class="rating">
+          <label>Hike Name
+            <textarea id="hikeName" name="hikeName" required>
+            </textarea>
+          </label>
+            <div class="rating" name="rating">
               <span class="star" data-value="1">&#9734;</span>
               <span class="star" data-value="2">&#9734;</span>
               <span class="star" data-value="3">&#9734;</span>
@@ -283,6 +279,7 @@ function drawCards(records) {
                             </div>
                             <div class="card-action">
                                 <a href="#" class="view-details">More Details</a>
+                                <a href="#reviewForm">Review</a> 
                             </div>
                             <div class="hidden-details">
                                 <p>Location: ${rec.location}</p>
@@ -349,7 +346,7 @@ document.addEventListener('DOMContentLoaded', function() {
             map.setZoom(15);
         }
     });
-    document.getElementById('reviewForm').addEventListener('submit', submitReview); 
+   
     document.querySelectorAll('.fav-icon').forEach(icon => {
                 icon.addEventListener('click', function(event) {
                       const card = event.target.closest('.card');
@@ -363,20 +360,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   });
             });
 });
-  async function submitReview(event){
-    event.preventDefault();
-    let form = event.target;
-    let formData = new FormData(form);
-    const {reviewer,hikeName,rating,text} = Object.fromEntries(formData);
-    if(auth.currentUser===null){
-        alert('Please login to review');
-    }else{
-      await createReview(auth,hikeName,rating,text);
-      M.toast({html: 'Review created!'});
-      form.reset();
-      getReviews(hikeName, renderReviews);
-    }
-  }
+  
   const stars = document.querySelectorAll('.rating .star');
   stars.forEach((star, index) => {
     star.addEventListener('mouseover', function() {
@@ -410,7 +394,7 @@ function fillStars(value) {
         }
     });
 }
-
+     
 </script>
   <script type="module">
       import { signIn, logout, auth, setAuthListeners } from './auth.js';
@@ -443,6 +427,26 @@ loginBtn.addEventListener('click', function() {
 });
       setAuthListeners(setLoggedInUI, setLoggedOutUI);
 
+      async function submitReview(event) {
+          event.preventDefault();
+          const form=event.target;
+          const formData=new FormData(form);
+          const hikeName=formData.get('hikeName'); 
+          const rating=parseInt(formData.get('rating')); 
+          const text=formData.get('comment');
+          if(!hikeName || !rating || !text){
+              alert('Please fill in all fields!');
+              return;
+          }
+          if(auth.currentUser === null){
+            alert('Please login to review');
+            return;
+          }
+            await createReview(auth, hikeName, rating, text);
+            M.toast({html: 'Review created!'});
+            form.reset();
+            getReviews(hikeName, renderReviews);
+        }
       function renderReviews(reviews){
         let reviewsList = document.querySelector('#reviews');
         let html = '';
@@ -462,6 +466,7 @@ loginBtn.addEventListener('click', function() {
         }
         reviewsList.innerHTML=html;
       }
+      
       </script>
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgj40pJo2Itk5sDKEZMbCQC9NTsvMHOU8&loading=async&libraries=places&callback=initMap">
 </script>

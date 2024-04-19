@@ -120,7 +120,7 @@ form label{
   <header>
   <nav class="nav-wraper green">
     <div class="container">
-      <a href="index.html" class="brand-logo">Hike Havens</a>
+      <a href="index.html" class="brand-logo">Hike Haven</a>
       <a href="#" class="sidenav-trigger" data-target="mobile-links">
         <i class="material-icons">menu</i>
       </a>
@@ -271,7 +271,7 @@ function drawCards(records) {
                         <div class="card">
                             <div class="card-img">
                                 <img src="${rec.image}" alt="${rec.name}-img">
-                                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse fav-icon">
+                                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse fav-icon" id="favourite-icon" >
                                     <i class="material-icons">favorite</i>
                                 </a>
                             </div>
@@ -387,7 +387,7 @@ function highlightStars(value, index) {
 
 function fillStars(value) {
     document.getElementById('selectedRating').value = value;
-    stars.forEach((star) => {
+     stars.forEach((star) => {
         const starValue = star.getAttribute('data-value');
         if (starValue <= value) {
             star.classList.add('filled');
@@ -466,7 +466,21 @@ loginBtn.addEventListener('click', function() {
         }
         reviewsList.innerHTML=html;
       }
-      
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.fav-icon').forEach(icon => {
+        icon.addEventListener('click', function(event) {
+            event.preventDefault();
+            const card = event.target.closest('.card');
+            if (card) {
+                const titleElement = card.querySelector('.card-title');
+                if (titleElement) {
+                    const hikeName = titleElement.textContent.trim();
+                    addToFavourites(hikeName);
+                }
+            }
+        });
+    });
+});
       </script>
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgj40pJo2Itk5sDKEZMbCQC9NTsvMHOU8&loading=async&libraries=places&callback=initMap">
 </script>

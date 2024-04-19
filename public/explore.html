@@ -271,9 +271,6 @@ function drawCards(records) {
                         <div class="card">
                             <div class="card-img">
                                 <img src="${rec.image}" alt="${rec.name}-img">
-                                <a href="#" class="halfway-fab btn-floating red lighten-1 pulse fav-icon" id="favourite-icon" >
-                                    <i class="material-icons">favorite</i>
-                                </a>
                             </div>
                             <div class="card-content">
                                 <span class="card-title">${rec.name}</span>
@@ -347,20 +344,8 @@ document.addEventListener('DOMContentLoaded', function() {
             map.setZoom(15);
         }
     });
-   
-    document.querySelectorAll('.fav-icon').forEach(icon => {
-                icon.addEventListener('click', function(event) {
-                      const card = event.target.closest('.card');
-                      if (card) {
-                      const titleElement = card.querySelector('.card-title');
-                      if (titleElement) {
-                      const hikeName = titleElement.textContent.trim();
-                      addToFavourites(hikeName);
-                      }
-                    }
-                  });
-            });
 });
+  
   
   const stars = document.querySelectorAll('.rating .star');
   stars.forEach((star, index) => {
@@ -396,11 +381,11 @@ function fillStars(value) {
         }
     });
 }
-     
+
 </script>
   <script type="module">
       import { signIn, logout, auth, setAuthListeners } from './auth.js';
-      import { getReviews, createReview, deleteReview, addToFavourites} from './data.js';
+      import { getReviews, createReview, deleteReview} from './data.js';
 
       let loginBtn = document.querySelector('#loginBtn');
       let logoutBtn = document.querySelector('#logoutBtn');
@@ -466,21 +451,7 @@ loginBtn.addEventListener('click', function() {
         }
         reviewsList.innerHTML=html;
       }
-      document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.fav-icon').forEach(icon => {
-        icon.addEventListener('click', function(event) {
-            event.preventDefault();
-            const card = event.target.closest('.card');
-            if (card) {
-                const titleElement = card.querySelector('.card-title');
-                if (titleElement) {
-                    const hikeName = titleElement.textContent.trim();
-                    addToFavourites(hikeName);
-                }
-            }
-        });
-    });
-});
+     
       </script>
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgj40pJo2Itk5sDKEZMbCQC9NTsvMHOU8&loading=async&libraries=places&callback=initMap">
 </script>

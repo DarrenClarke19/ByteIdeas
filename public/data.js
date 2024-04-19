@@ -40,23 +40,5 @@ async function deleteReview(auth, reviewId){
         return false;
     }
 }
-async function addToFavourites(hikeName) {
-    const user = firebase.auth().currentUser;
-    if (user) {
-        const userId = user.uid;
-        const userRef = db.collection('users').doc(userId);
-        const favouritesSnapshot = await userRef.collection('favourites').where('hikeName', '==', hikeName).get();
-        if (favouritesSnapshot.empty) {
-            await userRef.collection('favourites').add({
-                hikeName: hikeName,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            M.toast({ html: 'Hike Added to Favourites!' });
-        } else {
-            M.toast({ html: 'Hike is Already in Favourites!' });
-        }
-    } else {
-        M.toast({ html: 'Please sign in to add favorites!' });
-    }
-}
-export {getReviews, createReview, deleteReview,addToFavourites};
+
+export {getReviews, createReview, deleteReview};
